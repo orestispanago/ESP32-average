@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "Measurement.h"
 
 long uploadInterval = 10000;
 long lastUploadMillis;
@@ -10,47 +11,30 @@ float currentValue;
 float total;
 float average;
 
+Measurement hallMeasurement;
 
 void setup()
 {
   Serial.begin(9600);
+  hallMeasurement = Measurement();
 }
 
-void read()
+void loop()
 {
   if (millis() - lastReadMillis > readInterval)
   {
-    count++;
-    currentValue = hallRead();
-    total = total + currentValue;
-    average = total / count;
+    hallMeasurement.update(hallRead());
 
+    Serial.println(hallMeasurement.toString());
     lastReadMillis = millis();
-
-    Serial.print(count);
-    Serial.print(" ");
-    Serial.print(currentValue);
-    Serial.print(" ");
-    Serial.print(total);
-    Serial.print(" ");
-    Serial.println(average);
 
     delay(readInterval);
   }
-}
-
-void upload()
-{
-}
-void loop()
-{
-  read();
   if (millis() - lastUploadMillis > uploadInterval)
   {
     lastUploadMillis = millis();
     Serial.print("Uploaded: ");
-    Serial.println(average);
-    total = 0;
-    count = 0;
+    Serial.println(hallMeasurement.getAverage());
+    hallMeasurement.reset();
   }
 }
