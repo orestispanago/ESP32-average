@@ -4,12 +4,8 @@
 long uploadInterval = 10000;
 long lastUploadMillis;
 
-long readInterval = 1000; // milliseconds
+long readInterval = 1000;
 long lastReadMillis;
-long count;
-float currentValue;
-float total;
-float average;
 
 Measurement hallMeasurement;
 

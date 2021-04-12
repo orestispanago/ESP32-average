@@ -7,41 +7,41 @@ Measurement::Measurement()
 
 float Measurement::getCurrent()
 {
-    return _current;
+    return current;
 }
 
 float Measurement::getTotal()
 {
-    return _total;
+    return total;
 }
 
 float Measurement::getAverage()
 {
-    return _average;
+    return average;
 }
 
 long Measurement::getCount()
 {
-    return _count;
+    return count;
 }
 
 void Measurement::update(float newVal)
 {
-    _count++;
-    _total = _total + newVal;
-    _current = newVal;
-    _average = (_total / _count);
+    count++;
+    current = newVal;
+    total = total + current;
+    average = (total / count);
 }
 void Measurement::reset()
 {
-    _total = 0.0;
-    _count = 0.0;
+    total = 0.0;
+    count = 0.0;
 }
 
 String Measurement::toString()
 {
-    return "Measurement: { _count: " + String(_count) + "," +
-           " _current: " + String(_current) + "," +
-           " _total: " + String(_total) + "," +
-           " _average: " + String(_average) + "}";
+    return "Measurement: { count: " + String(count) + "," +
+           " current: " + String(current) + "," +
+           " total: " + String(total) + "," +
+           " average: " + String(average) + " }";
 }

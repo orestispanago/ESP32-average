@@ -7,18 +7,19 @@ class Measurement
 {
 public:
     Measurement();
+    long getCount();
     float getCurrent();
     float getTotal();
     float getAverage();
-    long getCount();
     void update(float newVal);
     void reset();
     String toString();
+
 private:
-    float _current;
-    float _total;
-    float _average;
-    long _count;
+    long count;
+    float current;
+    float total;
+    float average;
 };
 
 #endif
