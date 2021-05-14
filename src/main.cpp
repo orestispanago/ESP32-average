@@ -1,36 +1,36 @@
 #include <Arduino.h>
 #include "Measurement.h"
 
-long uploadInterval = 10000;
-long lastUploadMillis;
+unsigned long currentMillis;
 
-long readInterval = 1000;
-long lastReadMillis;
+unsigned long uploadInterval = 10000;
+unsigned long lastUploadMillis;
+
+unsigned long readInterval = 1000;
+unsigned long lastReadMillis;
 
 Measurement hallMeasurement;
 
 void setup()
 {
   Serial.begin(9600);
-  hallMeasurement = Measurement();
 }
 
 void loop()
 {
-  if (millis() - lastReadMillis > readInterval)
+  currentMillis = millis();
+  if (currentMillis - lastReadMillis > readInterval)
   {
-    hallMeasurement.update(hallRead());
-
-    Serial.println(hallMeasurement.toString());
-    lastReadMillis = millis();
-
-    delay(readInterval);
+    hallMeasurement.sample(hallRead());
+    hallMeasurement.print();
+    lastReadMillis = currentMillis;
   }
-  if (millis() - lastUploadMillis > uploadInterval)
+  currentMillis = millis();
+  if (currentMillis - lastUploadMillis > uploadInterval)
   {
-    lastUploadMillis = millis();
     Serial.print("Uploaded: ");
-    Serial.println(hallMeasurement.getAverage());
+    Serial.println(hallMeasurement.mean());
     hallMeasurement.reset();
+    lastUploadMillis = currentMillis;
   }
 }
